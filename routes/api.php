@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomerController;
 
 Route::get('/status', function () {
     return response()->json(['status' => 'API is working']);
 });
 
-Route::resource('customers', CustomerController::class);
+Route::resource('customers', \App\Http\Controllers\CustomerController::class);
+Route::resource('products', \App\Http\Controllers\ProductController::class);

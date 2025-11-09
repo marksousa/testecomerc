@@ -11,6 +11,16 @@ class CustomerApiTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    public function test_it_can_list_customers(): void
+    {
+        Customer::factory()->count(3)->create();
+
+        $response = $this->getJson('/api/customers');
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(3, 'data');
+    }
+
     public function test_it_can_create_a_customer(): void
     {
         $response = $this->postJson('/api/customers', [
@@ -42,16 +52,6 @@ class CustomerApiTest extends TestCase
                      'id' => $customer->id,
                      'email' => $customer->email,
                  ]);
-    }
-
-    public function test_it_can_list_customers(): void
-    {
-        Customer::factory()->count(3)->create();
-
-        $response = $this->getJson('/api/customers');
-
-        $response->assertStatus(200)
-                 ->assertJsonCount(3, 'data');
     }
 
     public function test_it_can_update_a_customer(): void
@@ -109,7 +109,8 @@ class CustomerApiTest extends TestCase
                  ]);
     }
 
-    public function test_it_validates_valid_email_format(): void {
+    public function test_it_validates_valid_email_format(): void
+    {
         $response = $this->postJson('/api/customers', [
             'name' => 'Invalid Email',
             'email' => 'invalid-email-format',
@@ -146,7 +147,6 @@ class CustomerApiTest extends TestCase
                  ->assertJsonValidationErrors(['email']);
     }
 
-    // it can paginate customers
     public function test_it_can_paginate_customers(): void
     {
         Customer::factory()->count(15)->create();
