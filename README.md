@@ -9,7 +9,7 @@ Pré-requisitos: Docker e docker-compose.
 1. Clonar o repositório
 
 ```bash
-git clone <seu-repositorio> .
+git clone https://github.com/marksousa/testecomerc.git
 ```
 
 2. Instalar dependências
