@@ -1,5 +1,87 @@
 # Back-end Challenge — Pastelaria (Prazo: 10/11/2025)
 
+## Como inicializar o projeto
+
+Abaixo passos para rodar o projeto localmente usando Laravel Sail (Dockerizado).
+
+Pré-requisitos: Docker e docker-compose.
+
+1. Clonar o repositório
+
+```bash
+git clone <seu-repositorio> .
+```
+
+2. Instalar dependências
+
+```bash
+./vendor/bin/sail composer install
+```
+
+3. Copiar .env e gerar APP_KEY
+
+```bash
+cp .env.example .env
+./vendor/bin/sail artisan key:generate
+```
+
+4. Subir containers
+
+```bash
+./vendor/bin/sail up -d
+```
+
+5. Executar migrations e seeders
+
+```bash
+# com sail
+./vendor/bin/sail artisan migrate --seed
+```
+
+6. Criar link simbólico para storage
+
+```bash
+./vendor/bin/sail artisan storage:link
+```
+
+7. Preparar diretório de testes para uploads fake
+   Alguns testes usam Storage::fake('public') e salvam em storage/framework/testing/disks/public. Se houver erro UnableToCreateDirectory crie o diretório e ajuste permissões:
+
+```bash
+./vendor/bin/sail exec laravel.test mkdir -p storage/framework/testing/disks/public
+./vendor/bin/sail exec laravel.test chmod -R 777 storage
+```
+
+8. Ajustar variáveis de mail para desenvolvimento/testes
+   No .env, defina:
+
+```
+MAIL_MAILER=log
+```
+
+Isso evita envio real de e‑mails em ambiente local/testes.
+
+9. Rodar testes
+
+```bash
+./vendor/bin/sail test
+```
+
+10. Rodar a aplicação (desenvolvimento)
+
+```bash
+./vendor/bin/sail up -d
+acessar http://localhost
+```
+
+Comandos úteis resumidos
+
+-   Subir containers: ./vendor/bin/sail up -d
+-   Parar containers: ./vendor/bin/sail down
+-   Rodar testes: ./vendor/bin/sail test
+-   Rodar migrations: ./vendor/bin/sail artisan migrate
+-   Criar storage testing dir: ./vendor/bin/sail exec laravel.test mkdir -p storage/framework/testing/disks/public
+
 ## Visão geral
 
 A necessidade é desenvolver uma API RESTFul para o gerenciamento de pedidos de uma pastelaria utilizando o framework Laravel ou Lúmen.
