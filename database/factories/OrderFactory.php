@@ -19,7 +19,7 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id' => \App\Models\Customer::factory(),
-            'status' => $this->faker->randomElement(['pending','preparing','ready','delivered','cancelled']),
+            'status' => $this->faker->randomElement(['pending', 'preparing', 'ready', 'delivered', 'cancelled']),
             'total_amount' => $this->faker->randomFloat(2, 10, 1000),
         ];
     }

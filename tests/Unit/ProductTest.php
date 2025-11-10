@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
@@ -18,7 +18,7 @@ class ProductTest extends TestCase
             'photo',
         ];
 
-        $product = new Product();
+        $product = new Product;
         $this->assertEquals($fillable, $product->getFillable());
     }
 

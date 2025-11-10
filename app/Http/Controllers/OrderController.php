@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-       $orders = Order::with(['customer', 'products'])
+        $orders = Order::with(['customer', 'products'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -56,9 +56,10 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Erro ao criar novo pedido',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -66,6 +67,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with(['customer', 'products'])->findOrFail($id);
+
         return response()->json($order);
     }
 
@@ -92,7 +94,7 @@ class OrderController extends Controller
 
                     $order->products()->attach($product->id, [
                         'quantity' => $quantity,
-                        'price' => $price
+                        'price' => $price,
                     ]);
 
                     $totalAmount += ($price * $quantity);
@@ -109,9 +111,10 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return response()->json([
                 'message' => 'Erro ao atualizar o pedido',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -123,7 +126,7 @@ class OrderController extends Controller
         $order->delete();
 
         return response()->json([
-            'message' => 'Order deleted successfully'
+            'message' => 'Order deleted successfully',
         ], 200);
     }
 

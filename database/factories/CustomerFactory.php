@@ -17,7 +17,7 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         $first = $this->faker->firstName();
-        $last  = $this->faker->lastName();
+        $last = $this->faker->lastName();
         $suffix = $this->faker->unique()->numberBetween(1, 99999);
 
         return [

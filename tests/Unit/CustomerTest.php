@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CustomerTest extends TestCase
 {
@@ -25,7 +25,7 @@ class CustomerTest extends TestCase
             'zip_code',
         ];
 
-        $customer = new \App\Models\Customer();
+        $customer = new \App\Models\Customer;
         $this->assertEquals($fillable, $customer->getFillable());
     }
 

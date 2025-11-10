@@ -23,7 +23,7 @@ class UpdateCustomerRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|string|email|max:255|unique:customers,email,' . $this->route('id'),
+            'email' => 'sometimes|required|string|email|max:255|unique:customers,email,'.$this->route('id'),
             'phone' => 'sometimes|required|string|max:255',
             'birthdate' => 'sometimes|required|date',
             'address' => 'sometimes|required|string|max:255',

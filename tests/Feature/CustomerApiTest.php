@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Customer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\Customer;
 use Tests\TestCase;
 
 class CustomerApiTest extends TestCase
@@ -18,7 +18,7 @@ class CustomerApiTest extends TestCase
         $response = $this->getJson('/api/customers');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_it_can_create_a_customer(): void
@@ -48,10 +48,10 @@ class CustomerApiTest extends TestCase
         $response = $this->getJson("/api/customers/{$customer->id}");
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'id' => $customer->id,
-                     'email' => $customer->email,
-                 ]);
+            ->assertJson([
+                'id' => $customer->id,
+                'email' => $customer->email,
+            ]);
     }
 
     public function test_it_can_update_a_customer(): void
@@ -97,16 +97,16 @@ class CustomerApiTest extends TestCase
         $response = $this->postJson('/api/customers', []);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors([
-                     'name',
-                     'email',
-                     'phone',
-                     'birthdate',
-                     'address',
-                     'address_line_two',
-                     'neighborhood',
-                     'zip_code',
-                 ]);
+            ->assertJsonValidationErrors([
+                'name',
+                'email',
+                'phone',
+                'birthdate',
+                'address',
+                'address_line_two',
+                'neighborhood',
+                'zip_code',
+            ]);
     }
 
     public function test_it_validates_valid_email_format(): void
@@ -123,7 +123,7 @@ class CustomerApiTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['email']);
+            ->assertJsonValidationErrors(['email']);
     }
 
     public function test_it_validates_unique_email_on_create(): void
@@ -144,7 +144,7 @@ class CustomerApiTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['email']);
+            ->assertJsonValidationErrors(['email']);
     }
 
     public function test_it_can_paginate_customers(): void
@@ -154,7 +154,6 @@ class CustomerApiTest extends TestCase
         $response = $this->getJson('/api/customers?page=2&per_page=5');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(5, 'data');
+            ->assertJsonCount(5, 'data');
     }
-
 }

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Order;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
@@ -18,7 +18,7 @@ class OrderTest extends TestCase
             'total_amount',
         ];
 
-        $order = new Order();
+        $order = new Order;
         $this->assertEquals($fillable, $order->getFillable());
     }
 

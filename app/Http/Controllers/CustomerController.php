@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Customer;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Customer;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -16,6 +16,7 @@ class CustomerController extends Controller
     {
         $per_page = $request->input('per_page', 15);
         $customers = Customer::paginate($per_page);
+
         return response()->json($customers);
     }
 
@@ -25,6 +26,7 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $customer = Customer::create($request->validated());
+
         return response()->json($customer, 201);
     }
 
@@ -34,6 +36,7 @@ class CustomerController extends Controller
     public function show(string $id)
     {
         $customer = Customer::findOrFail($id);
+
         return response()->json($customer);
     }
 
@@ -44,6 +47,7 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $customer->update($request->validated());
+
         return response()->json($customer);
     }
 
@@ -54,6 +58,7 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
+
         return response()->json(null, 204);
     }
 }

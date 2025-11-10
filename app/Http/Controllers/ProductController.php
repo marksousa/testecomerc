@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -16,6 +16,7 @@ class ProductController extends Controller
     {
         $per_page = $request->input('per_page', 15);
         $products = Product::paginate($per_page);
+
         return response()->json($products);
     }
 
@@ -26,12 +27,13 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        if($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('products', 'public');
-            $data['photo'] = asset('storage/' . $path);
+            $data['photo'] = asset('storage/'.$path);
         }
 
         $product = Product::create($data);
+
         return response()->json($product, 201);
     }
 
@@ -41,6 +43,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product = Product::findOrFail($id);
+
         return response()->json($product);
     }
 
@@ -51,6 +54,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->update($request->validated());
+
         return response()->json($product);
     }
 
@@ -61,6 +65,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
+
         return response()->json(null, 204);
     }
 }

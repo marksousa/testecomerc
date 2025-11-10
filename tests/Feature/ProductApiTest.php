@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use App\Models\Product;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -20,10 +20,10 @@ class ProductApiTest extends TestCase
         $response = $this->getJson("/api/products/{$product->id}");
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'id' => $product->id,
-                     'name' => $product->name,
-                 ]);
+            ->assertJson([
+                'id' => $product->id,
+                'name' => $product->name,
+            ]);
     }
 
     public function test_it_can_list_products(): void
@@ -33,7 +33,7 @@ class ProductApiTest extends TestCase
         $response = $this->getJson('/api/products');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     public function test_it_can_paginate_products(): void
@@ -43,7 +43,7 @@ class ProductApiTest extends TestCase
         $response = $this->getJson('/api/products?page=2&per_page=5');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(5, 'data');
+            ->assertJsonCount(5, 'data');
     }
 
     public function test_it_can_create_a_product(): void
@@ -62,7 +62,7 @@ class ProductApiTest extends TestCase
             'name' => 'Pastel de Queijo',
         ]);
 
-        //TODO: verificar se o arquivo existe
+        // TODO: verificar se o arquivo existe
     }
 
     public function test_it_can_update_a_product(): void
@@ -104,6 +104,6 @@ class ProductApiTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['name', 'price']);
+            ->assertJsonValidationErrors(['name', 'price']);
     }
 }

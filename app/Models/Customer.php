@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 // #[UseFactory(CustomerFactory::class)]
@@ -21,5 +21,4 @@ class Customer extends Model
         'neighborhood',
         'zip_code',
     ];
-
 }

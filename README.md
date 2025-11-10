@@ -52,14 +52,7 @@ cp .env.example .env
 ./vendor/bin/sail exec laravel.test chmod -R 777 storage
 ```
 
-8. Ajustar variáveis de mail para desenvolvimento/testes
-   No .env, defina:
-
-```
-MAIL_MAILER=log
-```
-
-Isso evita envio real de e‑mails em ambiente local/testes.
+8. Acessar http://localhost:8025/ para verificar o cliente de email e verificar o email após criação de um novo pedido.
 
 9. Rodar testes
 
