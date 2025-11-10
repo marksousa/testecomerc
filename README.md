@@ -74,19 +74,13 @@ Isso evita envio real de e‑mails em ambiente local/testes.
 acessar http://localhost
 ```
 
-Comandos úteis resumidos
-
--   Subir containers: ./vendor/bin/sail up -d
--   Parar containers: ./vendor/bin/sail down
--   Rodar testes: ./vendor/bin/sail test
--   Rodar migrations: ./vendor/bin/sail artisan migrate
--   Criar storage testing dir: ./vendor/bin/sail exec laravel.test mkdir -p storage/framework/testing/disks/public
-
 ## Visão geral
 
 A necessidade é desenvolver uma API RESTFul para o gerenciamento de pedidos de uma pastelaria utilizando o framework Laravel ou Lúmen.
 
-Não entregar sem fazer todos os testes unitários do início ao fim, foque em testar tudo na aplicação.
+### Diagrame ER
+
+![Diagrama do Banco de Dados](BD.png "Diagrama ER do sistema da Pastelaria")
 
 ## Instruções para entrega
 
