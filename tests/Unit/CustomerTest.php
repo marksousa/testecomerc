@@ -25,7 +25,7 @@ class CustomerTest extends TestCase
             'zip_code',
         ];
 
-        $customer = new \App\Models\Customer;
+        $customer = new \App\Models\Customer();
         $this->assertEquals($fillable, $customer->getFillable());
     }
 

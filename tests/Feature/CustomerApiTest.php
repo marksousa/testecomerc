@@ -9,7 +9,8 @@ use Tests\TestCase;
 
 class CustomerApiTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     public function test_it_can_list_customers(): void
     {

@@ -18,7 +18,7 @@ class ProductTest extends TestCase
             'photo',
         ];
 
-        $product = new Product;
+        $product = new Product();
         $this->assertEquals($fillable, $product->getFillable());
     }
 

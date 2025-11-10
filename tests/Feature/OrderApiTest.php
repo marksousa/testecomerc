@@ -10,7 +10,8 @@ use Tests\TestCase;
 
 class OrderApiTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     public function test_it_create_new_order_and_send_email_to_customer(): void
     {

@@ -11,7 +11,8 @@ use Tests\TestCase;
 
 class ProductApiTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
     public function test_it_can_get_a_product(): void
     {

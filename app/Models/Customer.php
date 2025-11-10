@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 // #[UseFactory(CustomerFactory::class)]
 class Customer extends Model
 {
-    use hasFactory, SoftDeletes;
+    use hasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

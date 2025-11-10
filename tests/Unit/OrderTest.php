@@ -18,7 +18,7 @@ class OrderTest extends TestCase
             'total_amount',
         ];
 
-        $order = new Order;
+        $order = new Order();
         $this->assertEquals($fillable, $order->getFillable());
     }
 
