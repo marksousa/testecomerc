@@ -29,7 +29,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('products', 'public');
-            $data['photo'] = asset('storage/'.$path);
+            $data['photo'] = $path;
         }
 
         $product = Product::create($data);

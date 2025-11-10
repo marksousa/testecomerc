@@ -25,6 +25,25 @@ services:
             - mysql
             - redis
             - mailpit
+    queue:
+        build:
+            context: './vendor/laravel/sail/runtimes/8.4'
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: 'sail-8.4/app'
+        command: php artisan queue:work --sleep=3 --tries=3
+        depends_on:
+            - redis
+            - mysql
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        environment:
+            WWWUSER: '${WWWUSER}'
+            LARAVEL_SAIL: 1
+            QUEUE_CONNECTION: redis
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
