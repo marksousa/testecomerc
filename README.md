@@ -3,84 +3,76 @@
 ## Como inicializar o projeto
 
 Abaixo passos para rodar o projeto localmente usando Laravel Sail (Dockerizado).
-
 Pré-requisitos: Docker e docker-compose.
 
 1. Clonar o repositório
-
 ```bash
 git clone https://github.com/marksousa/testecomerc.git
 ```
 
 2. Instalar dependências
-
 ```bash
 ./vendor/bin/sail composer install
 ```
 
 3. Copiar .env e gerar APP_KEY
-
 ```bash
 cp .env.example .env
 ./vendor/bin/sail artisan key:generate
 ```
 
 4. Subir containers
-
 ```bash
 ./vendor/bin/sail up -d
 ```
 
 5. Executar migrations e seeders
-
 ```bash
-# com sail
 ./vendor/bin/sail artisan migrate --seed
 ```
 
 6. Criar link simbólico para storage
-
 ```bash
 ./vendor/bin/sail artisan storage:link
 ```
 
-7. Preparar diretório de testes para uploads fake
-   Alguns testes usam Storage::fake('public') e salvam em storage/framework/testing/disks/public. Se houver erro UnableToCreateDirectory crie o diretório e ajuste permissões:
-
+7. Preparar diretório de testes para uploads fake (opcional, rodar em caso de erro de permissão)
+   Alguns testes usam Storage::fake('public') e salvam em storage/framework/testing/disks/public. Se houver erro UnableToCreateDirectory criar o diretório e ajustar permissões:
 ```bash
 ./vendor/bin/sail exec laravel.test mkdir -p storage/framework/testing/disks/public
 ./vendor/bin/sail exec laravel.test chmod -R 777 storage
 ```
 
-8. Acessar http://localhost:8025/ para verificar o cliente de email e verificar o email após criação de um novo pedido.
+8. Acessar http://localhost:8025/ para verificar o cliente de email e verificar as mensagens enviadas após criação de um novo pedido. Utilizado aqui o Mailpit na porta 8025
 
-9. Rodar testes
-
+9. Para rodar testes Unitários e Feature/Integração
 ```bash
 ./vendor/bin/sail test
 ```
 
-10. Rodar a aplicação (desenvolvimento)
-
+10.  Rodar a aplicação
 ```bash
 ./vendor/bin/sail up -d
-acessar http://localhost
 ```
 
-## Visão geral
+11. Acessar http://localhost
 
-A necessidade é desenvolver uma API RESTFul para o gerenciamento de pedidos de uma pastelaria utilizando o framework Laravel ou Lúmen.
+12. Documentação Swagger: acessar http://localhost/api/documentation
+(algumas rotas não estão ainda completamente documentadas)
 
 ### Diagrame ER
-
 ![Diagrama do Banco de Dados](BD.png "Diagrama ER do sistema da Pastelaria")
+
+
+# Enunciado do Desafio
+
+## Visão geral
+A necessidade é desenvolver uma API RESTFul para o gerenciamento de pedidos de uma pastelaria utilizando o framework Laravel ou Lúmen.
 
 ## Instruções para entrega
 
 -   Versione, com git, e hospede seu código em algum serviço de sua preferência: github, bitbucket, gitlab ou outro.
 -   Crie um README com instruções claras sobre como executar sua obra.
--   Envie um e-mail com o link do seu repositório para andre.silva1@dexian.com
--   Dúvidas podem ser enviadas para o mesmo e-mail acima.
 
 ## Sobre o projeto
 
