@@ -61,8 +61,21 @@ cp .env.example .env
 (algumas rotas não estão ainda completamente documentadas)
 
 ### Diagrama ER
-![Diagrama do Banco de Dados](BD.png "Diagrama ER do sistema da Pastelaria")
+![Diagrama do Banco de Dados](docs/BD.png "Diagrama ER do sistema da Pastelaria")
 
+### Exemplos Postman
+![Screenshot Postman](docs/postman_order.png "postman new Order")
+```
+{
+  "customer_id": 2,
+  "products": [
+    { "product_id": 1, "quantity": 2 },
+    { "product_id": 2, "quantity": 1 }
+  ]
+}
+```
+
+![Screenshot Postman](docs/postman_products.png "postman new Product")
 
 # Enunciado do Desafio
 
