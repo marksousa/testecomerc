@@ -29,13 +29,13 @@ components:
           example: "1990-05-10"
         address:
           type: string
-          example: "Rua das Flores, 123"
+          example: "Avenida Paulista, 1000"
         address_line_two:
           type: string
           example: "Apto 4B"
         neighborhood:
           type: string
-          example: "Centro"
+          example: "Cerqueira César"
         zip_code:
           type: string
           example: "12345-678"
@@ -55,11 +55,11 @@ components:
           example: 1
         name:
           type: string
-          example: "Camiseta Azul"
+          example: "Pastel de Carne"
         price:
           type: number
           format: float
-          example: 49.90
+          example: 12.50
         photo:
           type: string
           nullable: true

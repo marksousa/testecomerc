@@ -45,3 +45,75 @@ paths:
                 $ref: './components.yaml#/components/schemas/Product'
         '422':
           description: Erro de validação
+
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Mostra detalhes de um produto
+      operationId: showProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Product'
+        '404':
+          description: Produto não encontrado
+
+    put:
+      tags: [Products]
+      summary: Atualiza um produto existente
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Camiseta Vermelha"
+                price:
+                  type: number
+                  example: 59.90
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Produto atualizado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Product'
+        '422':
+          description: Erro de validação
+        '404':
+          description: Produto não encontrado
+
+    delete:
+      tags: [Products]
+      summary: Remove um produto
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '204':
+          description: Produto removido
+        '404':
+          description: Produto não encontrado

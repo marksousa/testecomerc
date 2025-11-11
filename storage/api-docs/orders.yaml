@@ -57,3 +57,70 @@ paths:
                 $ref: './components.yaml#/components/schemas/Order'
         '422':
           description: Erro de validação
+
+  /orders/{id}:
+    get:
+      tags: [Orders]
+      summary: Mostra detalhes de um pedido
+      operationId: showOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Pedido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Order'
+        '404':
+          description: Pedido não encontrado
+
+    put:
+      tags: [Orders]
+      summary: Atualiza o status de um pedido
+      operationId: updateOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [pending, preparing, ready, delivered, cancelled]
+                  example: "ready"
+      responses:
+        '200':
+          description: Pedido atualizado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Order'
+        '404':
+          description: Pedido não encontrado
+        '422':
+          description: Erro de validação
+
+    delete:
+      tags: [Orders]
+      summary: Cancela um pedido
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '204':
+          description: Pedido cancelado
+        '404':
+          description: Pedido não encontrado
