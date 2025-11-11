@@ -60,7 +60,7 @@ cp .env.example .env
 12. Documentação Swagger: acessar http://localhost/api/documentation
 (algumas rotas não estão ainda completamente documentadas)
 
-### Diagrame ER
+### Diagrama ER
 ![Diagrama do Banco de Dados](BD.png "Diagrama ER do sistema da Pastelaria")
 
 

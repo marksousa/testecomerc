@@ -61,4 +61,15 @@ class CustomerController extends Controller
 
         return response()->json(null, 204);
     }
+
+    /**
+     * Restore a soft-deleted customer.
+     */
+    public function restore(string $id)
+    {
+        $customer = Customer::withTrashed()->findOrFail($id);
+        $customer->restore();
+
+        return response()->json($customer);
+    }
 }

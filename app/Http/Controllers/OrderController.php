@@ -125,9 +125,14 @@ class OrderController extends Controller
         // Soft delete
         $order->delete();
 
+        // deletar os itens do pedido associados
+        foreach ($order->products as $product) {
+            $order->products()->detach($product->id);
+        }
+
         return response()->json([
             'message' => 'Order deleted successfully',
-        ], 200);
+        ], 204);
     }
 
     public function getByCustomer($customerId)

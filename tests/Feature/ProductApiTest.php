@@ -63,7 +63,7 @@ class ProductApiTest extends TestCase
             'name' => 'Pastel de Queijo',
         ]);
 
-        // TODO: verificar se o arquivo existe
+        Storage::disk('public')->assertExists($response->json('photo'));
     }
 
     public function test_it_can_update_a_product(): void
@@ -106,5 +106,70 @@ class ProductApiTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'price']);
+    }
+
+    public function test_it_can_create_product_with_photo_upload(): void
+    {
+        Storage::fake('public');
+
+        $file = UploadedFile::fake()->image('product.jpg', 200, 200);
+
+        $response = $this->postJson('/api/products', [
+            'name' => 'Pastel de Carne',
+            'price' => 14.55,
+            'photo' => $file,
+        ]);
+
+        $response->assertStatus(201)
+                 ->assertJsonPath('name', 'Pastel de Carne');
+
+        $this->assertDatabaseHas('products', [
+            'name' => 'Pastel de Carne',
+            'price' => 14.55,
+        ]);
+
+        // Verifica se arquivo foi armazenado
+        Storage::disk('public')->assertExists($response->json('photo'));
+    }
+
+    public function test_it_validates_image_format(): void
+    {
+        Storage::fake('public');
+
+        $file = UploadedFile::fake()->create('document.pdf', 100);
+
+        $response = $this->postJson('/api/products', [
+            'name' => 'Pastel de Carne',
+            'price' => 12.50,
+            'photo' => $file,
+        ]);
+
+        $response->assertStatus(422)
+                 ->assertJsonValidationErrors(['photo']);
+    }
+
+    public function test_it_validates_image_max_size(): void
+    {
+        $file = UploadedFile::fake()->image('product.jpg')->size(3000); // 3MB > 2MB max
+
+        $response = $this->postJson('/api/products', [
+            'name' => 'Pastel de Carne',
+            'price' => 12.50,
+            'photo' => $file,
+        ]);
+
+        $response->assertStatus(422)
+                 ->assertJsonValidationErrors(['photo']);
+    }
+
+    public function test_it_lists_products_with_photo_url(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->getJson('/api/products');
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(1, 'data')
+                 ->assertJsonFragment(['photo' => $product->photo]);
     }
 }

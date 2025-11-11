@@ -157,4 +157,57 @@ class CustomerApiTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(5, 'data');
     }
+
+    public function test_it_can_list_customers_with_pagination(): void
+    {
+        Customer::factory()->count(20)->create();
+
+        $response = $this->getJson('/api/customers');
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(15, 'data') // padrão 15 por página
+                 ->assertJsonFragment(['current_page' => 1])
+                 ->assertJsonFragment(['total' => 20]);
+    }
+
+    public function test_it_can_paginate_customers_with_custom_per_page(): void
+    {
+        Customer::factory()->count(30)->create();
+
+        $response = $this->getJson('/api/customers?page=2&per_page=10');
+
+        $response->assertStatus(200)
+                 ->assertJsonCount(10, 'data');
+    }
+
+    public function test_it_returns_404_for_nonexistent_customer(): void
+    {
+        $response = $this->getJson('/api/customers/99999');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_soft_deleted_customer_not_listed(): void
+    {
+        $customer = Customer::factory()->create();
+        $customer->delete();
+
+        $response = $this->getJson('/api/customers');
+
+        $ids = $response->json('data.*.id');
+        $this->assertNotContains($customer->id, $ids);
+    }
+
+    public function test_it_can_restore_soft_deleted_customer(): void
+    {
+        $customer = Customer::factory()->create();
+        $customer->delete();
+
+        // endpoint PUT /api/customers/{id}/restore
+        $response = $this->putJson("/api/customers/{$customer->id}/restore");
+
+        $response->assertStatus(200);
+
+        $this->assertNull(Customer::find($customer->id)->deleted_at);
+    }
 }
