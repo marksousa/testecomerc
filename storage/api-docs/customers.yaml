@@ -1,0 +1,44 @@
+paths:
+  /customers:
+    get:
+      tags: [Customers]
+      summary: Lista todos os clientes
+      operationId: listCustomers
+      responses:
+        '200':
+          description: Lista de clientes retornada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components.yaml#/components/schemas/Customer'
+
+    post:
+      tags: [Customers]
+      summary: Cria um novo cliente
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components.yaml#/components/schemas/Customer'
+            example:
+              name: João Silva
+              email: joao@example.com
+              phone: "+55 11 99999-8888"
+              birthdate: "1990-05-12"
+              address: "Rua das Flores, 100"
+              address_line_two: "Apto 12B"
+              neighborhood: "Centro"
+              zip_code: "12345-678"
+      responses:
+        '201':
+          description: Cliente criado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Customer'
+        '422':
+          description: Erro de validação

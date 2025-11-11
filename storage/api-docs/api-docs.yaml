@@ -1,0 +1,277 @@
+openapi: 3.0.3
+info:
+  title: Laravel Pastelaria API
+  version: 1.0.0
+  description: |
+    Documentação da API do sistema de pastelaria desenvolvido em Laravel.
+    Inclui entidades **Customers**, **Products**, **Orders** e **OrderItems**.
+    Autenticação não requerida neste exemplo.
+
+servers:
+  - url: http://localhost/api
+    description: Ambiente local (Laravel Sail)
+
+tags:
+  - name: Customers
+    description: Operações relacionadas a clientes
+  - name: Products
+    description: Operações relacionadas a produtos
+  - name: Orders
+    description: Operações de pedidos e seus itens
+
+paths:
+  /customers:
+    get:
+      tags: [Customers]
+      summary: Lista todos os clientes
+      responses:
+        '200':
+          description: Lista de clientes retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+    post:
+      tags: [Customers]
+      summary: Cria um novo cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Cliente criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '422':
+          description: Erro de validação
+
+  /products:
+    get:
+      tags: [Products]
+      summary: Lista todos os produtos
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      tags: [Products]
+      summary: Cria um novo produto (com upload de foto)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Camiseta Azul"
+                price:
+                  type: number
+                  format: float
+                  example: 49.90
+                photo:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Produto criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '422':
+          description: Erro de validação
+
+  /orders:
+    get:
+      tags: [Orders]
+      summary: Lista todos os pedidos
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+
+    post:
+      tags: [Orders]
+      summary: Cria um novo pedido
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, products]
+              properties:
+                customer_id:
+                  type: integer
+                  example: 1
+                products:
+                  type: array
+                  items:
+                    type: object
+                    required: [product_id, quantity]
+                    properties:
+                      product_id:
+                        type: integer
+                        example: 2
+                      quantity:
+                        type: integer
+                        minimum: 1
+                        example: 3
+      responses:
+        '201':
+          description: Pedido criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '422':
+          description: Erro de validação
+
+components:
+  schemas:
+    Customer:
+      type: object
+      required:
+        - name
+        - email
+        - phone
+        - birthdate
+        - address
+        - neighborhood
+        - zip_code
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "João Silva"
+        email:
+          type: string
+          example: "joao.silva@example.com"
+        phone:
+          type: string
+          example: "+55 11 99999-9999"
+        birthdate:
+          type: string
+          format: date
+          example: "1990-05-15"
+        address:
+          type: string
+          example: "Rua das Flores, 123"
+        address_line_two:
+          type: string
+          example: "Apto 12B"
+        neighborhood:
+          type: string
+          example: "Centro"
+        zip_code:
+          type: string
+          example: "12345-678"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Product:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Camiseta Azul"
+        price:
+          type: number
+          format: float
+          example: 49.90
+        photo:
+          type: string
+          nullable: true
+          example: "https://example.com/storage/products/1.jpg"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Order:
+      type: object
+      required:
+        - customer_id
+        - status
+        - total_amount
+      properties:
+        id:
+          type: integer
+          example: 1
+        customer_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          enum: [pending, preparing, ready, delivered, cancelled]
+          example: "pending"
+        total_amount:
+          type: number
+          format: float
+          example: 149.70
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+
+    OrderItem:
+      type: object
+      required:
+        - product_id
+        - quantity
+        - price
+      properties:
+        id:
+          type: integer
+          example: 10
+        product_id:
+          type: integer
+          example: 3
+        quantity:
+          type: integer
+          example: 2
+        price:
+          type: number
+          format: float
+          example: 75.00

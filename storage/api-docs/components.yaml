@@ -1,0 +1,115 @@
+components:
+  schemas:
+    Customer:
+      type: object
+      required:
+        - name
+        - email
+        - phone
+        - birthdate
+        - address
+        - neighborhood
+        - zip_code
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "João Silva"
+        email:
+          type: string
+          example: "joao@example.com"
+        phone:
+          type: string
+          example: "+55 11 98888-7777"
+        birthdate:
+          type: string
+          format: date
+          example: "1990-05-10"
+        address:
+          type: string
+          example: "Rua das Flores, 123"
+        address_line_two:
+          type: string
+          example: "Apto 4B"
+        neighborhood:
+          type: string
+          example: "Centro"
+        zip_code:
+          type: string
+          example: "12345-678"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Product:
+      type: object
+      required: [name, price]
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Camiseta Azul"
+        price:
+          type: number
+          format: float
+          example: 49.90
+        photo:
+          type: string
+          nullable: true
+          example: "https://example.com/storage/products/1.jpg"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    OrderItem:
+      type: object
+      required: [product_id, quantity, price]
+      properties:
+        product_id:
+          type: integer
+          example: 2
+        quantity:
+          type: integer
+          example: 3
+        price:
+          type: number
+          example: 29.90
+
+    Order:
+      type: object
+      required: [customer_id, status, total_amount]
+      properties:
+        id:
+          type: integer
+          example: 5
+        customer_id:
+          type: integer
+          example: 1
+        status:
+          type: string
+          enum: [pending, preparing, ready, delivered, cancelled]
+          example: "pending"
+        total_amount:
+          type: number
+          format: float
+          example: 89.70
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'

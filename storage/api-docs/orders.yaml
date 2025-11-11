@@ -1,0 +1,59 @@
+paths:
+  /orders:
+    get:
+      tags: [Orders]
+      summary: Lista todos os pedidos
+      operationId: listOrders
+      responses:
+        '200':
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components.yaml#/components/schemas/Order'
+
+    post:
+      tags: [Orders]
+      summary: Cria um novo pedido
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, products]
+              properties:
+                customer_id:
+                  type: integer
+                  example: 1
+                products:
+                  type: array
+                  items:
+                    type: object
+                    required: [product_id, quantity]
+                    properties:
+                      product_id:
+                        type: integer
+                        example: 2
+                      quantity:
+                        type: integer
+                        example: 3
+            example:
+              customer_id: 1
+              products:
+                - product_id: 2
+                  quantity: 1
+                - product_id: 3
+                  quantity: 2
+      responses:
+        '201':
+          description: Pedido criado
+          content:
+            application/json:
+              schema:
+                $ref: './components.yaml#/components/schemas/Order'
+        '422':
+          description: Erro de validação
